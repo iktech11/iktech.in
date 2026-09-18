@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Instagram, Menu, X, ArrowRight } from 'lucide-react';
 
@@ -35,9 +36,12 @@ export default function Navbar() {
           {/* Official Brand Logo */}
           <a href="#" className="flex items-center gap-3 group">
             <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 p-0.5 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:scale-105 transition-transform">
-              <img
+              <Image
                 src="/logo.png"
                 alt="iktech.in"
+                width={36}
+                height={36}
+                priority
                 className="w-full h-full object-contain rounded-full"
               />
             </div>

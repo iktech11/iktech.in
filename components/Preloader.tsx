@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 interface PreloaderProps {
@@ -49,9 +50,12 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           className="relative mb-6"
         >
           <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-cyan-500/30 to-blue-600/30 p-1 flex items-center justify-center shadow-2xl shadow-cyan-500/30 ring-1 ring-cyan-400/40">
-            <img
+            <Image
               src="/logo.png"
               alt="iktech.in Logo"
+              width={80}
+              height={80}
+              priority
               className="w-full h-full object-contain rounded-full"
             />
           </div>

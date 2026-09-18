@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Mail, Instagram, ArrowUp } from 'lucide-react';
 
 export default function Footer() {
@@ -16,9 +17,11 @@ export default function Footer() {
           <div className="md:col-span-2 space-y-3.5">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 p-0.5 flex items-center justify-center shadow-lg shadow-cyan-500/25">
-                <img
+                <Image
                   src="/logo.png"
                   alt="iktech.in"
+                  width={36}
+                  height={36}
                   className="w-full h-full object-contain rounded-full"
                 />
               </div>

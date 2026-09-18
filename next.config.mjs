@@ -1,8 +1,11 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
-  reactStrictMode: true,
+  output: 'export',
+  basePath: isProd ? '/iktech.in' : '',
   images: {
-    domains: ['images.unsplash.com', 'illustrations.popsy.co'],
+    unoptimized: true,
   },
 };
 

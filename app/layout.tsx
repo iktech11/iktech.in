@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://iktech11.github.io/iktech.in"),
   title: "iktech.in | Ultra-Premium Web & App Development Portfolio",
   description: "Welcome to iktech.in portfolio. Engineering bespoke, modern web and mobile applications with full-stack precision (BCA) and business growth strategy (MBA Finance).",
   keywords: [
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "iktech.in | Ultra-Premium Web & App Development Portfolio",
     description: "Welcome to my portfolio. Crafting ultra-premium websites and applications tailored for you.",
-    url: "https://iktech.in",
+    url: "https://iktech11.github.io/iktech.in",
     siteName: "iktech.in",
     images: [
       {
@@ -44,11 +45,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/logo.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
-      </head>
       <body className="bg-[#04060d] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-white">
         {children}
       </body>
