@@ -13,7 +13,6 @@ import SocialConnect from '@/components/SocialConnect';
 import VisitorCounter from '@/components/VisitorCounter';
 import Footer from '@/components/Footer';
 import SilkWavesBackground from '@/components/SilkWavesBackground';
-import MobileFloatingDock from '@/components/MobileFloatingDock';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -40,7 +39,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: loading ? 0 : 1 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="min-h-screen flex flex-col text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white relative z-10 bg-transparent pb-16 sm:pb-0"
+        className="min-h-screen flex flex-col text-white overflow-x-hidden selection:bg-cyan-500/30 selection:text-white relative z-10 bg-transparent pb-0"
       >
         <Navbar />
         
@@ -68,9 +67,6 @@ export default function Home() {
         </main>
 
         <Footer />
-
-        {/* Mobile 1-Tap Floating Action Dock */}
-        <MobileFloatingDock />
       </motion.div>
     </>
   );

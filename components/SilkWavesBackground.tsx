@@ -40,7 +40,7 @@ export default function SilkWavesBackground() {
 
     let time = 0;
 
-    // Silk ribbon definitions optimized for mobile & desktop
+    // Silk ribbon definitions with tailored desktop & mobile responsiveness
     const ribbons = [
       {
         baseY: 0.35,
@@ -109,7 +109,6 @@ export default function SilkWavesBackground() {
 
     const render = () => {
       time += 1;
-      // Smooth scroll interpolation
       scrollY += (targetScrollY - scrollY) * 0.06;
 
       ctx.clearRect(0, 0, width, height);
@@ -118,22 +117,24 @@ export default function SilkWavesBackground() {
       ctx.fillStyle = '#04060d';
       ctx.fillRect(0, 0, width, height);
 
+      const isMobile = width < 768;
+
       // Background ambient depth glows
       const bgGrad1 = ctx.createRadialGradient(
-        width * 0.75, height * 0.35, 10,
-        width * 0.75, height * 0.35, width * 0.5
+        width * (isMobile ? 0.6 : 0.75), height * 0.35, 10,
+        width * (isMobile ? 0.6 : 0.75), height * 0.35, width * (isMobile ? 0.8 : 0.5)
       );
-      bgGrad1.addColorStop(0, 'rgba(59, 130, 246, 0.12)');
-      bgGrad1.addColorStop(0.6, 'rgba(147, 51, 234, 0.05)');
+      bgGrad1.addColorStop(0, 'rgba(59, 130, 246, 0.14)');
+      bgGrad1.addColorStop(0.6, 'rgba(147, 51, 234, 0.06)');
       bgGrad1.addColorStop(1, 'rgba(4, 6, 13, 0)');
       ctx.fillStyle = bgGrad1;
       ctx.fillRect(0, 0, width, height);
 
       const bgGrad2 = ctx.createRadialGradient(
-        width * 0.25, height * 0.7, 10,
-        width * 0.25, height * 0.7, width * 0.45
+        width * (isMobile ? 0.35 : 0.25), height * 0.7, 10,
+        width * (isMobile ? 0.35 : 0.25), height * 0.7, width * (isMobile ? 0.75 : 0.45)
       );
-      bgGrad2.addColorStop(0, 'rgba(192, 132, 252, 0.1)');
+      bgGrad2.addColorStop(0, 'rgba(192, 132, 252, 0.12)');
       bgGrad2.addColorStop(1, 'rgba(4, 6, 13, 0)');
       ctx.fillStyle = bgGrad2;
       ctx.fillRect(0, 0, width, height);
@@ -143,8 +144,7 @@ export default function SilkWavesBackground() {
         ctx.save();
         ctx.globalCompositeOperation = 'screen';
 
-        const isMobile = width < 768;
-        const pointsCount = isMobile ? 26 : 40;
+        const pointsCount = isMobile ? 36 : 48;
         const step = width / (pointsCount - 1);
         const topPoints: { x: number; y: number }[] = [];
         const botPoints: { x: number; y: number }[] = [];
@@ -152,21 +152,28 @@ export default function SilkWavesBackground() {
 
         const scrollOffset = (scrollY * 0.07) * (rIdx % 2 === 0 ? 1 : -0.6);
 
+        // Responsive wave frequency & amplitude so mobile gets majestic wide sweeping curves like desktop
+        const currentFreq = isMobile ? ribbon.freq * 0.45 : ribbon.freq;
+        const currentAmp = isMobile
+          ? Math.min(height * 0.11, width * 0.26)
+          : height * ribbon.amplitude;
+        const currentThick = isMobile ? ribbon.thickness * 0.58 : ribbon.thickness;
+
         for (let i = 0; i < pointsCount; i++) {
           const x = i * step;
           const nx = i / (pointsCount - 1);
 
-          // Very slow, smooth organic wave calculation
+          // Very smooth organic wave calculation
           const t = time * ribbon.speed + ribbon.phase;
           const wave =
-            Math.sin(nx * ribbon.freq * Math.PI * 2 + t) * (height * ribbon.amplitude) +
-            Math.cos(nx * (ribbon.freq * 0.6) * Math.PI * 2 - t * 0.8) * (height * ribbon.amplitude * 0.4) +
-            Math.sin(nx * 4.8 + t * 1.4) * 15;
+            Math.sin(nx * currentFreq * Math.PI * 2 + t) * currentAmp +
+            Math.cos(nx * (currentFreq * 0.6) * Math.PI * 2 - t * 0.8) * (currentAmp * 0.4) +
+            Math.sin(nx * (isMobile ? 2.5 : 4.8) + t * 1.4) * (isMobile ? 8 : 15);
 
           const cy = height * ribbon.baseY + wave + (scrollOffset % height);
           const thick =
-            (isMobile ? ribbon.thickness * 0.75 : ribbon.thickness) *
-            (0.75 + 0.35 * Math.sin(nx * Math.PI * 3 + t * 0.7));
+            currentThick *
+            (0.75 + 0.35 * Math.sin(nx * Math.PI * (isMobile ? 1.5 : 3) + t * 0.7));
 
           topPoints.push({ x, y: cy - thick * 0.5 });
           midPoints.push({ x, y: cy });
@@ -202,18 +209,18 @@ export default function SilkWavesBackground() {
 
         // Highlight ridge
         ctx.beginPath();
-        ctx.moveTo(midPoints[0].x, midPoints[0].y - 6);
+        ctx.moveTo(midPoints[0].x, midPoints[0].y - (isMobile ? 3 : 6));
         for (let i = 1; i < midPoints.length - 1; i++) {
           const xc = (midPoints[i].x + midPoints[i + 1].x) / 2;
-          const yc = (midPoints[i].y + midPoints[i + 1].y) / 2 - 6;
-          ctx.quadraticCurveTo(midPoints[i].x, midPoints[i].y - 6, xc, yc);
+          const yc = (midPoints[i].y + midPoints[i + 1].y) / 2 - (isMobile ? 3 : 6);
+          ctx.quadraticCurveTo(midPoints[i].x, midPoints[i].y - (isMobile ? 3 : 6), xc, yc);
         }
-        ctx.lineTo(midPoints[midPoints.length - 1].x, midPoints[midPoints.length - 1].y - 6);
+        ctx.lineTo(midPoints[midPoints.length - 1].x, midPoints[midPoints.length - 1].y - (isMobile ? 3 : 6));
         
         ctx.lineWidth = isMobile ? 1.8 : 2.5;
         ctx.strokeStyle = ribbon.highlight;
         ctx.shadowColor = ribbon.highlight;
-        ctx.shadowBlur = isMobile ? 8 : 12;
+        ctx.shadowBlur = isMobile ? 10 : 14;
         ctx.stroke();
 
         ctx.restore();

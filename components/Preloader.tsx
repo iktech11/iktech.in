@@ -8,6 +8,8 @@ interface PreloaderProps {
   onComplete: () => void;
 }
 
+const basePath = process.env.NODE_ENV === 'production' ? '/iktech.in' : '';
+
 export default function Preloader({ onComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
   const [stageText, setStageText] = useState('Initializing portfolio...');
@@ -23,9 +25,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         const next = prev + 5;
         if (next > 75) setStageText('Launching experience...');
         else if (next > 40) setStageText('Loading high-performance architecture...');
+        else if (next > 15) setStageText('Connecting components & UI...');
         return next;
       });
-    }, 80);
+    }, 70);
 
     return () => clearInterval(interval);
   }, [onComplete]);
@@ -33,8 +36,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, y: -20, filter: 'blur(12px)' }}
-      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#04060d] text-white select-none overflow-hidden"
     >
       {/* Dynamic Ambient Silk Glows */}
@@ -50,12 +53,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           className="relative mb-6"
         >
           <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-cyan-500/30 to-blue-600/30 p-1 flex items-center justify-center shadow-2xl shadow-cyan-500/30 ring-1 ring-cyan-400/40">
-            <Image
-              src="/logo.png"
+            <img
+              src={`${basePath}/logo.png`}
               alt="iktech.in Logo"
-              width={80}
-              height={80}
-              priority
               className="w-full h-full object-contain rounded-full"
             />
           </div>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const basePath = process.env.NODE_ENV === 'production' ? '/iktech.in' : '';
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://iktech11.github.io/iktech.in"),
   title: "iktech.in | Ultra-Premium Web & App Development Portfolio",
@@ -17,9 +19,13 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "iktech.in" }],
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: [
+      { url: `${basePath}/favicon.ico`, sizes: "any" },
+      { url: `${basePath}/favicon.png`, type: "image/png" },
+      { url: `${basePath}/logo.png`, type: "image/png" },
+    ],
+    shortcut: `${basePath}/logo.png`,
+    apple: `${basePath}/logo.png`,
   },
   openGraph: {
     title: "iktech.in | Ultra-Premium Web & App Development Portfolio",
@@ -45,6 +51,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
+      <head>
+        <link rel="icon" href={`${basePath}/favicon.ico`} sizes="any" />
+        <link rel="icon" href={`${basePath}/favicon.png`} type="image/png" />
+        <link rel="icon" href={`${basePath}/logo.png`} type="image/png" />
+        <link rel="apple-touch-icon" href={`${basePath}/logo.png`} />
+        <link rel="shortcut icon" href={`${basePath}/logo.png`} />
+      </head>
       <body className="bg-[#04060d] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-white">
         {children}
       </body>
